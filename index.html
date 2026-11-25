@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TaniKira: rekod kebun, kira untung</title>
+<meta name="theme-color" content="#2F6B3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TaniKira">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="TaniKira: rekod kos, hasil dan kesihatan pokok untuk petani muda padi, getah dan kelapa sawit. Universiti Sains Malaysia.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3EA;--surface:#FFFFFF;--soft:#F6F9F3;--ink:#17261C;--muted:#5C6B60;--line:#D5DFD2;--daun:#2F6B3A;--daunink:#FFFFFF;--padi:#A97F0F;--getah:#4F6B7A;--sawit:#C2541A;--good:#2F7D46;--warn:#9A6514;--bad:#B4322A;--goodbg:#E1F1E4;--warnbg:#FBF0D9;--badbg:#F8E0DD;--shadow:0 1px 0 rgba(23,38,28,.06);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101712;--surface:#18231B;--soft:#1D2A20;--ink:#E4ECE3;--muted:#9EAE9F;--line:#2B3A2F;--daun:#5FAE6C;--daunink:#0D1A10;--padi:#D9B44A;--getah:#8FAAB9;--sawit:#E9874D;--good:#63C27E;--warn:#E2B157;--bad:#EE7A6E;--goodbg:#173022;--warnbg:#3A2E14;--badbg:#3D1C19;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101712;--surface:#18231B;--soft:#1D2A20;--ink:#E4ECE3;--muted:#9EAE9F;--line:#2B3A2F;--daun:#5FAE6C;--daunink:#0D1A10;--padi:#D9B44A;--getah:#8FAAB9;--sawit:#E9874D;--good:#63C27E;--warn:#E2B157;--bad:#EE7A6E;--goodbg:#173022;--warnbg:#3A2E14;--badbg:#3D1C19;--shadow:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+p{text-align:justify;hyphens:auto;margin:.45em 0}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.15;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sawit);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* USM band */
+.band{background:#fff;border-bottom:4px solid #e9741b;color:#1f2a30}
+.band-in{max-width:1180px;margin:auto;display:flex;align-items:center;gap:16px;padding:10px 18px;flex-wrap:wrap}
+.band img{display:block;height:42px;width:auto}
+.band-txt{font-weight:700;font-size:13.5px;border-left:2px solid #e3e6e8;padding-left:14px}
+.band-txt span,.band-auth span{display:block;font-weight:400;font-size:12px;color:#5b6870}
+.band-auth{margin-left:auto;text-align:right;font-weight:700;font-size:13.5px}
+@media (max-width:640px){.band-in{gap:8px 12px;padding:8px 14px}.band img{height:34px}.band-txt{display:none}.band-auth{font-size:12.5px;margin-left:auto}}
+
+/* layout */
+.shell{max-width:1180px;margin:auto;display:grid;grid-template-columns:1fr;gap:28px;padding:0 0 0}
+@media (min-width:980px){.shell{grid-template-columns:minmax(0,1fr) 440px;padding:24px 18px 40px;align-items:start}.about-side{display:block!important}.app{border:1px solid var(--line);border-radius:28px;overflow:hidden;position:sticky;top:16px;height:calc(100vh - 32px);max-height:900px}}
+.shell>*{min-width:0}.view{min-width:0}
+.about-side{display:none;padding:6px 8px}
+.app{background:var(--bg);display:flex;flex-direction:column;min-height:calc(100vh - 62px);position:relative}
+.top{display:flex;align-items:center;gap:10px;padding:14px 16px 8px;background:var(--bg)}
+.logo-t{display:flex;align-items:center;gap:9px}
+.logo-t h1{font-size:23px;font-weight:800;letter-spacing:-.4px}
+.logo-t small{display:block;font-size:12px;color:var(--muted);font-family:"Atkinson Hyperlegible",sans-serif}
+.sync{margin-left:auto;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.on{background:var(--good)}
+.view{flex:1;overflow-y:auto;padding:4px 16px 110px;-webkit-overflow-scrolling:touch}
+@media (min-width:980px){.view{padding-bottom:96px}}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
+@media (min-width:980px){.nav{position:absolute}}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--muted);padding:6px 2px;border-radius:12px;min-height:52px}
+.nav button svg{width:24px;height:24px}
+.nav button[aria-current="page"]{color:var(--daun);font-weight:700;background:var(--soft)}
+
+/* chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--daun);border-color:var(--daun);color:var(--daunink);font-weight:700}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* blocks */
+.block{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 14px;box-shadow:var(--shadow)}
+.block h2{font-size:19px;font-weight:800;margin-bottom:6px}
+.block h3{font-size:16px;font-weight:600;margin:12px 0 4px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.wrap{flex-wrap:wrap}
+
+/* hero ledger */
+.ledger{background:var(--daun);color:var(--daunink);border-radius:22px;padding:18px 18px 14px;margin-bottom:14px;position:relative;overflow:hidden}
+.ledger .lab{font-size:14px;opacity:.9}
+.ledger .big{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(34px,10vw,44px);letter-spacing:-1px;line-height:1.05;margin:4px 0 10px;font-variant-numeric:tabular-nums}
+.ledger .split{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px dashed currentColor;padding-top:10px;font-size:14px}
+.ledger .split b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+.ledger svg.bund{position:absolute;right:-10px;top:-6px;width:150px;opacity:.16}
+
+.qa{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.qa button{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 6px;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:74px}
+.qa button svg{width:24px;height:24px;color:var(--daun)}
+
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:700;background:var(--daun);color:var(--daunink);min-height:46px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.bad{background:var(--bad);color:#fff}
+.btn.sm{padding:7px 12px;min-height:36px;font-size:14px;border-radius:11px}
+.btn.full{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.link{background:none;border:0;color:var(--daun);font-weight:700;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
+
+.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;margin:6px 0;font-size:14.5px}
+.alert.warn{background:var(--warnbg)}.alert.bad{background:var(--badbg)}.alert.good{background:var(--goodbg)}
+.alert b{display:block}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.tag.good{background:var(--goodbg);color:var(--good)}.tag.warn{background:var(--warnbg);color:var(--warn)}.tag.bad{background:var(--badbg);color:var(--bad)}.tag.plain{background:var(--soft);color:var(--muted)}
+
+/* crop tiles */
+.crops{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.crop{border:2px solid var(--line);background:var(--surface);border-radius:18px;padding:12px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:14px;text-align:center}
+.crop svg{width:58px;height:58px}
+.crop[aria-pressed="true"]{border-color:var(--daun);background:var(--soft)}
+
+/* plot card */
+.plot{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.plot:first-of-type{border-top:0}
+.ic{display:grid;place-items:center;border-radius:10px;background:var(--soft);flex:0 0 auto}.ic svg{width:80%;height:80%}
+.plot .ic{width:44px;height:44px;border-radius:12px;background:var(--soft);display:grid;place-items:center}
+.plot .ic svg{width:32px;height:32px}
+.plot b{display:block;overflow-wrap:anywhere}
+.meter{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:5px}
+.meter span{display:block;height:100%;border-radius:99px}
+
+/* lists */
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list .grow{flex:1;min-width:0}
+.list .grow b{display:block;overflow-wrap:anywhere}
+.amt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.amt.plus{color:var(--good)}.amt.minus{color:var(--bad)}
+.x{background:none;border:0;color:var(--muted);padding:6px;border-radius:8px;font-size:18px;line-height:1}
+
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:700;font-size:13px}
+
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px;margin-bottom:12px}
+.seg button{border:0;background:none;border-radius:10px;padding:9px 4px;font-weight:700;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+.task{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.task:first-child{border-top:0}
+.task input{width:22px;height:22px;margin-top:2px;accent-color:var(--daun);flex:0 0 auto}
+.task .grow{flex:1;min-width:0}.task .grow b,.task .grow span{display:block}
+.task.done b{text-decoration:line-through;color:var(--muted)}
+
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:8px;align-items:center;font-size:14px}
+.bar-row .tr{height:12px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar-row .tr span{display:block;height:100%;background:var(--daun);border-radius:99px}
+
+/* sheet */
+.ov{position:fixed;inset:0;background:rgba(10,20,12,.48);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.ov[hidden]{display:none}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+@media (min-width:640px){.ov{align-items:center}.sheet{border-radius:24px;max-height:88vh}}
+.sheet h2{font-size:21px;font-weight:800;margin:0 0 12px}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:-6px auto 12px}
+label.f{display:block;margin:0 0 12px;font-weight:700;font-size:14.5px}
+label.f span.h{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.inp{display:block;width:100%;margin-top:5px;border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 12px;font-size:16px;min-height:46px}
+textarea.inp{min-height:84px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checks{display:flex;flex-direction:column;gap:8px;margin:6px 0 14px}
+.checks label{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14.5px}
+.checks input{width:20px;height:20px;margin-top:1px;accent-color:var(--daun);flex:0 0 auto}
+.checks label:has(input:checked){border-color:var(--daun);background:var(--soft)}
+.sheet .acts{display:flex;gap:10px;margin-top:6px}
+.sheet .acts .btn{flex:1}
+
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;max-width:90vw;text-align:center}
+.toast[hidden]{display:none}
+
+.ai-out{white-space:pre-wrap;background:var(--soft);border-radius:12px;padding:12px;font-size:14.5px;margin-top:10px;text-align:left}
+
+/* about */
+.about h2{font-size:clamp(30px,3.4vw,44px);font-weight:800;letter-spacing:-.8px;margin:8px 0 12px;max-width:16ch}
+.about h3{font-size:19px;font-weight:600;margin:22px 0 6px}
+.about p{max-width:66ch}
+.about .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.about .trio div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px}
+.about .trio svg{width:46px;height:46px}
+.about .trio b{display:block;margin:4px 0 2px}
+.about .trio p{font-size:14px;margin:0}
+.about ol{padding-left:20px;max-width:66ch}
+.about ol li{margin:4px 0;text-align:justify}
+.about .sign{margin-top:22px;padding-top:12px;border-top:1px solid var(--line);font-size:14px}
+@media (max-width:520px){.about .trio{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.ledger{animation:rise .5s ease-out}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<header class="band" role="banner"><div class="band-in">
+ <img src="assets/usm-apex.png" alt="Universiti Sains Malaysia, APEX" width="286" height="69">
+ <div class="band-txt">Pusat Pengajian Kejuruteraan Mekanik<span>Kampus Kejuruteraan, 14300 Nibong Tebal, Pulau Pinang</span></div>
+ <div class="band-auth">Ir. Ts. Dr. Muhammad Hafiz HASSAN<span>Pembangun aplikasi</span></div>
+</div></header>
+
+<div class="shell">
+ <section class="about-side about" id="aboutSide" aria-label="Tentang projek"></section>
+ <main class="app" id="app">
+  <div class="top">
+   <div class="logo-t"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="var(--daun)"/><path d="M8 29h24M11 29c0-8 4-13 9-15M20 14c3 3 4 8 3 15M20 14c-1-4 1-7 5-8" stroke="var(--daunink)" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="27" cy="11" r="2.2" fill="var(--daunink)"/></svg>
+    <div><h1>TaniKira</h1><small>Rekod kebun, kira untung</small></div></div>
+   <div class="sync" id="sync" aria-live="polite"><span class="dot" id="syncDot"></span><span id="syncTxt">Dalam peranti</span></div>
+  </div>
+  <div class="view" id="view" tabindex="-1"></div>
+  <nav class="nav" aria-label="Menu utama">
+   <button data-v="utama"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Utama</button>
+   <button data-v="sihat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 5-15 15-16-1 10-7 15-15 16z"/><path d="M5 21c3-5 6-8 10-11"/></svg>Kesihatan</button>
+   <button data-v="duit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Kewangan</button>
+   <button data-v="bahan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Bahan</button>
+   <button data-v="lagi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Lagi</button>
+  </nav>
+ </main>
+</div>
+
+<div class="ov" id="ov" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<template id="aboutTpl">
+ <h2>Buku kebun dalam telefon petani muda</h2>
+ <p>Ramai petani kecil tidak menyimpan rekod bulanan. Hasil dijual, baja dibeli, upah dibayar, tetapi tiada catatan yang menunjukkan sama ada kebun benar-benar untung selepas enam bulan. TaniKira menggabungkan tiga perkara yang selama ini terpisah: pemantauan kesihatan pokok, perancangan pembelian bahan, dan lejar kos serta hasil yang mengira untung bersih setiap bulan.</p>
+ <div class="trio">
+  <div>__ICON_padi__<b>Sawah padi</b><p>Jadual kerja ikut hari selepas tabur, semakan karah, bena perang, tikus dan siput.</p></div>
+  <div>__ICON_getah__<b>Kebun getah</b><p>Rekod sekerap, upah toreh, semakan akar putih dan kanser jalur toreh.</p></div>
+  <div>__ICON_sawit__<b>Kelapa sawit</b><p>Rekod BTS, pusingan tuai, Ganoderma, ulat bungkus dan kekurangan nutrien.</p></div>
+ </div>
+ <h3>Cadangan perintis bersama Jabatan Pertanian</h3>
+ <ol>
+  <li>Perintis di satu negeri dengan 30 hingga 50 petani muda bagi setiap tanaman, dipilih bersama pejabat pertanian daerah.</li>
+  <li>Petani merekod kos, hasil dan semakan kesihatan sekurang-kurangnya enam bulan. Rekod kewangan kekal peribadi kepada petani.</li>
+  <li>Borang tinjauan keperluan dalam aplikasi mengumpul cabaran sebenar mengikut negeri, daerah dan tanaman untuk panel pegawai.</li>
+  <li>Dapatan perintis digunakan untuk merancang latihan, bantuan input dan versi seterusnya yang meliputi sayur-sayuran, buah-buahan dan ternakan.</li>
+ </ol>
+ <h3>Cara mencuba</h3>
+ <p>Tekan <b>Cuba data contoh</b> pada skrin utama untuk melihat tiga kebun contoh dengan enam bulan rekod. Aplikasi ini boleh ditambah ke skrin utama telefon seperti aplikasi biasa.</p>
+ <p class="sign"><b>Ir. Ts. Dr. Muhammad Hafiz HASSAN</b><br>Pusat Pengajian Kejuruteraan Mekanik, Universiti Sains Malaysia<br>Prototaip untuk pembentangan kepada Jabatan Pertanian Malaysia. © 2026 Universiti Sains Malaysia.</p>
+</template>
+
+<script>
+(function(){
+"use strict";
+var CONFIG={emelTinjauan:"mhafizhassan@usm.my"};
+var KEY="tanikira.v1";
+var BULAN=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+var NEGERI=["Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Perak","Perlis","Pulau Pinang","Sabah","Sarawak","Selangor","Terengganu","W.P. Kuala Lumpur","W.P. Labuan","W.P. Putrajaya"];
+
+var ICON={
+ padi:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M30 60C30 40 32 26 40 10" stroke="#5E8B3A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M31 44c-8-2-14-8-16-16M32 36c7-3 12-9 14-17" stroke="#5E8B3A" stroke-width="2.4" fill="none" stroke-linecap="round"/><g fill="var(--padi)"><ellipse cx="41" cy="9" rx="3" ry="4.6" transform="rotate(25 41 9)"/><ellipse cx="45" cy="16" rx="3" ry="4.6" transform="rotate(50 45 16)"/><ellipse cx="36" cy="15" rx="3" ry="4.6" transform="rotate(-10 36 15)"/><ellipse cx="41" cy="22" rx="3" ry="4.6" transform="rotate(35 41 22)"/><ellipse cx="34" cy="23" rx="3" ry="4.6" transform="rotate(-15 34 23)"/></g></svg>',
+ getah:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 62V14h18v48" fill="#8A6A4A"/><path d="M14 16c4-12 30-14 36 0-6 4-30 4-36 0z" fill="#5E8B3A"/><path d="M22 30l18 8M22 34l18 8" stroke="#E8E2D4" stroke-width="2"/><path d="M40 40h-2v6" stroke="#E8E2D4" stroke-width="2" fill="none"/><path d="M32 47h12l-2 7h-8z" fill="var(--getah)"/><path d="M34 49h8" stroke="#F4F1E8" stroke-width="2"/></svg>',
+ sawit:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M30 62l2-34" stroke="#7A5C3A" stroke-width="5" stroke-linecap="round"/><g stroke="#5E8B3A" stroke-width="3" fill="none" stroke-linecap="round"><path d="M32 28C24 16 12 14 4 20"/><path d="M32 28c8-12 20-14 28-8"/><path d="M32 28C30 16 22 6 14 4"/><path d="M32 28c2-12 10-22 18-24"/></g><g fill="var(--sawit)"><circle cx="27" cy="36" r="3.4"/><circle cx="33" cy="35" r="3.4"/><circle cx="30" cy="41" r="3.4"/><circle cx="36" cy="40" r="3.4"/><circle cx="25" cy="41" r="3.2"/></g></svg>'
+};
+
+var CROPS={
+ padi:{nama:"Sawah padi",pendek:"Padi",warna:"var(--padi)",unit:"kg",tarikh:"Tarikh tabur atau tanam",
+  hasil:["Jualan padi","Insentif atau subsidi","Lain-lain hasil"],
+  kos:["Benih","Baja","Racun","Membajak dan jentera","Upah tuai","Air dan minyak","Sewa tanah","Upah pekerja","Lain-lain kos"]},
+ getah:{nama:"Kebun getah",pendek:"Getah",warna:"var(--getah)",unit:"kg",tarikh:"Tarikh tanam",
+  hasil:["Jualan sekerap","Jualan susu getah","Insentif atau subsidi","Lain-lain hasil"],
+  kos:["Upah toreh","Baja","Racun rumpai","Asid dan bahan beku","Mangkuk dan tali","Perangsang","Pengangkutan","Lain-lain kos"]},
+ sawit:{nama:"Kebun kelapa sawit",pendek:"Sawit",warna:"var(--sawit)",unit:"kg",tarikh:"Tarikh tanam",
+  hasil:["Jualan BTS","Jualan buah relai","Insentif atau subsidi","Lain-lain hasil"],
+  kos:["Baja","Racun rumpai","Racun perosak","Upah tuai","Upah angkut","Jentera","Anak benih","Lain-lain kos"]}
+};
+
+var SIMPTOM={
+ padi:[
+  ["kuning","Daun menguning hampir seluruh petak",15,"Kemungkinan kekurangan nitrogen. Semak sama ada baja kedua sudah ditabur. Jangan tambah baja melebihi cadangan kerana boleh menggalakkan karah."],
+  ["karah","Bintik bentuk mata atau berlian pada daun (karah)",25,"Tanda penyakit karah. Elak baja nitrogen berlebihan dan dapatkan nasihat pegawai pertanian daerah tentang racun kulat yang berdaftar."],
+  ["bena","Rumpun layu kekuningan bertompok, serangga perang di pangkal (bena perang)",30,"Periksa pangkal rumpun di beberapa tempat. Elak semburan racun serangga yang tidak perlu kerana ia membunuh musuh semula jadi. Laporkan jika serangan merebak."],
+  ["tikus","Batang padi terpotong atau kesan gigitan tikus",20,"Kawalan tikus paling berkesan jika dibuat serentak dengan jiran sebatas. Bersihkan batas dan pasang umpan mengikut panduan."],
+  ["siput","Anak padi dimakan siput gondang emas, telur merah jambu pada batang",20,"Kutip siput dan musnahkan telur. Urus paras air pada dua minggu pertama selepas tabur."],
+  ["rumpai","Rumpai atau padi angin banyak dalam petak",15,"Rekod jenis rumpai. Guna benih sah dan rancang racun rumpai lebih awal musim depan."],
+  ["air","Petak kering atau air tidak sekata",10,"Semak tali air dan batas yang bocor. Paras air yang tidak sekata menjejaskan baja dan kawalan rumpai."]],
+ getah:[
+  ["akar","Daun pucat dan layu, kulat putih pada akar (akar putih)",35,"Tanda penyakit akar putih. Gali dan periksa akar pokok sekeliling. Rujuk RISDA atau pegawai pertanian untuk rawatan dan pengasingan pokok terjejas."],
+  ["kanser","Kulit panel toreh berlekuk, reput atau berbau (kanser jalur toreh)",20,"Hentikan torehan pada panel terjejas, bersihkan dan rawat panel. Elak menoreh ketika kulit basah."],
+  ["luruh","Daun luruh luar musim atau penuh bintik",20,"Kemungkinan penyakit daun. Ambil gambar daun dan rujuk pegawai. Pastikan pembajaan tidak tertangguh."],
+  ["kering","Kulit toreh kering, susu getah tidak keluar",20,"Gejala kering alur. Kurangkan kekerapan toreh dan perangsang pada pokok terlibat."],
+  ["luka","Torehan terlalu dalam hingga melukakan kayu",10,"Latih penoreh semula. Luka kayu mengurangkan hasil jangka panjang."],
+  ["rumpai","Lalang dan rumpai tebal di jajaran",10,"Rancang kawalan rumpai suku tahunan supaya baja tidak dirampas rumpai."]],
+ sawit:[
+  ["gano","Beberapa pucuk tombak tidak terbuka, kulat pada pangkal batang (Ganoderma)",40,"Tanda reput pangkal Ganoderma. Tandakan pokok dan laporkan kepada pegawai. Penyakit ini merebak melalui akar, jadi pengurusan awal sangat penting."],
+  ["ulat","Daun berlubang, sarang ulat bungkus atau ulat api",20,"Buat bancian beberapa pelepah. Jika melebihi paras ambang, dapatkan nasihat kawalan bersasar."],
+  ["kumbang","Pelepah muda terpotong bentuk V atau kipas (kumbang badak)",20,"Semak timbunan batang reput yang menjadi tempat pembiakan. Perangkap feromon boleh membantu."],
+  ["kalium","Bintik jingga pada pelepah tua (kekurangan kalium)",10,"Semak rekod baja kalium. Analisis daun membantu menentukan kadar baja yang tepat."],
+  ["mg","Pelepah tua kuning terang pada bahagian terdedah matahari (kekurangan magnesium)",10,"Semak baja magnesium dalam program baja tahun ini."],
+  ["tikus","Buah dimakan tikus, banyak buah relai rosak",10,"Pertimbangkan burung pungguk jelapang dan umpan secara terkawal."],
+  ["air","Air bertakung lama selepas hujan",10,"Bersihkan parit. Akar yang lemas mengurangkan pengambilan baja."]]
+};
+
+var TUGAS={
+ padi:[
+  {id:"p1",h:7,t:"Kawal rumpai awal",d:"Ikut label racun dan paras air yang sesuai."},
+  {id:"p2",h:15,t:"Baja pertama (sebatian)",d:"Gunakan baja subsidi melalui pertubuhan peladang dahulu."},
+  {id:"p3",h:35,t:"Baja kedua (nitrogen)",d:"Tabur ketika air cetek supaya baja tidak hanyut."},
+  {id:"p4",h:45,t:"Pantau bena perang dan karah",d:"Buat semakan kesihatan dalam aplikasi."},
+  {id:"p5",h:55,t:"Baja tambahan fasa bunting",d:"Ikut warna daun dan cadangan pegawai kawasan."},
+  {id:"p6",h:60,t:"Kawalan tikus serentak sebatas",d:"Selaras dengan jiran."},
+  {id:"p7",h:95,t:"Keringkan petak sebelum tuai",d:"Memudahkan jentera masuk."},
+  {id:"p8",h:110,t:"Tuai dan catat hasil (kg)",d:"Simpan resit kilang dan masukkan dalam Kewangan."}],
+ getah:[
+  {id:"g1",f:"bulan",t:"Semak panel toreh",d:"Kedalaman, kecerunan dan kekerapan toreh."},
+  {id:"g2",f:"bulan",t:"Pantau penyakit akar dan daun",d:"Buat semakan kesihatan dalam aplikasi."},
+  {id:"g3",f:"suku",t:"Kawal rumpai jajaran",d:"Sekali setiap tiga bulan."},
+  {id:"g4",f:"separuh",t:"Baja pokok matang",d:"Lazimnya dua kali setahun, sebaiknya bukan pada musim kering."}],
+ sawit:[
+  {id:"s1",f:"bulan",t:"Pusingan tuai dan catat BTS",d:"Pusingan lazim 10 hingga 15 hari. Simpan resit gred dan harga."},
+  {id:"s2",f:"bulan",t:"Bancian ulat dan kumbang badak",d:"Periksa beberapa pokok di setiap blok."},
+  {id:"s3",f:"suku",t:"Kawal rumpai bulatan dan laluan",d:"Bulatan bersih memudahkan kutip buah relai."},
+  {id:"s4",f:"suku",t:"Cantas pelepah",d:"Biasanya serentak dengan tuai."},
+  {id:"s5",f:"separuh",t:"Baja (NPK, K, Mg)",d:"Lazimnya dua hingga tiga pusingan setahun. Analisis daun atau tanah membantu."}]
+};
+
+var PANDUAN={
+ padi:[["Benih","Guna benih sah berlabel. Benih simpanan sendiri mudah bercampur padi angin dan menurunkan hasil."],["Baja","Ambil kuota baja subsidi melalui pertubuhan peladang dahulu. Beli tambahan hanya bila daun menunjukkan keperluan."],["Racun","Semak nombor pendaftaran Lembaga Racun Makhluk Perosak pada label. Beli ikut keluasan petak supaya tidak berbaki dan rosak."],["Jentera","Tempah jentera bajak dan tuai awal bersama jiran sebatas. Harga biasanya lebih baik jika dibuat berkumpulan."]],
+ getah:[["Bahan beku","Guna asid atau bahan beku yang disyorkan. Bahan bukan cadangan boleh menurunkan gred dan harga sekerap."],["Baja","Bandingkan harga mengikut kandungan nutrien, bukan harga sebeg. Gunakan kalkulator di bawah."],["Mangkuk dan tali","Ganti mangkuk retak sebelum musim hujan untuk elak kerugian susu getah."],["Jualan","Timbang di peniaga berlesen dan simpan resit untuk rekod serta tuntutan insentif."]],
+ sawit:[["Baja","Kalium dan magnesium paling kerap kurang. Bandingkan harga nutrien setiap kg, bukan setiap beg."],["Racun","Beli racun rumpai mengikut keluasan bulatan, bukan keseluruhan ladang."],["Jualan BTS","Jual kepada peniaga berlesen MPOB dan minta resit yang menunjukkan gred dan harga setiap tan."],["Alat tuai","Pastikan sabit dan dodos tajam. Buah yang luka menurunkan gred."]]
+};
+
+/* ---------- state ---------- */
+var S=null,mem=null;
+function blank(){return{v:1,updatedAt:0,profil:{nama:"",negeri:"",daerah:"",tel:""},kebun:[],duit:[],sihat:[],stok:[],selesai:{},demo:false};}
+function load(){try{var s=localStorage.getItem(KEY);if(s)return JSON.parse(s);}catch(e){}return mem||blank();}
+S=load();
+var ui={v:"utama",k:"all",duitTab:"ringkas",bahanTab:"tugas"};
+var db=null,uid=null,user=null,isOwner=false,dl=null,sample=null,saveT=null;
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function uidGen(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function todayISO(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function addDays(iso,n){var d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function diffDays(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5);}
+function mk(iso){return iso.slice(0,7);}
+function mLabel(k){var p=k.split("-");return BULAN[+p[1]-1]+" "+p[0];}
+function fdate(iso){var p=iso.split("-");return +p[2]+" "+BULAN[+p[1]-1]+" "+p[0];}
+function rm(n){var neg=n<0;n=Math.abs(n||0);return (neg?"−":"")+"RM "+n.toLocaleString("ms-MY",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function rn(n){return (n<0?"−":"")+Math.abs(n||0).toLocaleString("ms-MY",{minimumFractionDigits:0,maximumFractionDigits:0});}
+function num(v){var n=parseFloat(String(v).replace(/,/g,""));return isFinite(n)?n:0;}
+function lastMonths(n){var out=[],d=new Date();d.setDate(1);for(var i=n-1;i>=0;i--){var x=new Date(d.getFullYear(),d.getMonth()-i,1);out.push(x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0"));}return out;}
+function kebunById(id){return S.kebun.find(function(k){return k.id===id;});}
+function inFilter(r){return ui.k==="all"||r.kebunId===ui.k;}
+
+function save(){S.updatedAt=Date.now();mem=S;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+ clearTimeout(saveT);saveT=setTimeout(pushCloud,700);}
+function pushCloud(){if(!db||!uid)return;db.collection("data/users/"+uid).doc("tanikira").set({json:JSON.stringify(S),updatedAt:S.updatedAt}).then(function(){setSync(true);}).catch(function(){setSync(false);});}
+function setSync(on){document.getElementById("syncDot").className="dot"+(on?" on":"");document.getElementById("syncTxt").textContent=on?"Disimpan ke akaun":"Dalam peranti";}
+
+function toast(t){var el=document.getElementById("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){el.hidden=true;},2600);}
+
+/* ---------- finance ---------- */
+function sums(filterFn){var by={};S.duit.forEach(function(r){if(!filterFn(r))return;var k=mk(r.tarikh);by[k]=by[k]||{h:0,k:0};if(r.jenis==="hasil")by[k].h+=r.amaun;else by[k].k+=r.amaun;});return by;}
+
+/* ---------- tasks ---------- */
+function periodKey(f){var d=new Date(),y=d.getFullYear(),m=d.getMonth();if(f==="bulan")return y+"-"+String(m+1).padStart(2,"0");if(f==="suku")return y+"-Q"+(Math.floor(m/3)+1);return y+"-H"+(m<6?1:2);}
+function tasksFor(k){var t=todayISO(),out=[];(TUGAS[k.tanaman]||[]).forEach(function(x){
+ if(k.tanaman==="padi"){if(!k.tarikh)return;var due=addDays(k.tarikh,x.h);var key=k.id+"|"+x.id+"|"+k.tarikh;var dd=diffDays(t,due);
+  if(dd<=14&&dd>=-30)out.push({key:key,t:x.t,d:x.d,due:due,dd:dd,k:k,done:!!S.selesai[key]});}
+ else{var p=periodKey(x.f);var key2=k.id+"|"+x.id+"|"+p;out.push({key:key2,t:x.t,d:x.d,per:x.f,k:k,done:!!S.selesai[key2]});}});
+ return out;}
+function allTasks(){var o=[];S.kebun.forEach(function(k){if(ui.k==="all"||ui.k===k.id)o=o.concat(tasksFor(k));});return o;}
+function lastHealth(kid){var l=S.sihat.filter(function(h){return h.kebunId===kid;}).sort(function(a,b){return b.tarikh.localeCompare(a.tarikh)||b.at-a.at;});return l[0];}
+function hStatus(s){if(s==null)return["plain","Belum disemak","var(--line)"];if(s>=80)return["good","Sihat","var(--good)"];if(s>=50)return["warn","Perlu perhatian","var(--warn)"];return["bad","Kritikal","var(--bad)"];}
+
+/* ---------- render ---------- */
+var view=document.getElementById("view");
+function go(v){ui.v=v;render();view.scrollTop=0;window.scrollTo(0,0);}
+document.querySelectorAll(".nav button").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.v);});});
+
+function chipsHTML(){if(S.kebun.length<2)return"";var h='<div class="chips" role="group" aria-label="Pilih kebun"><button class="chip" data-k="all" aria-pressed="'+(ui.k==="all")+'">Semua kebun</button>';
+ S.kebun.forEach(function(k){h+='<button class="chip" data-k="'+k.id+'" aria-pressed="'+(ui.k===k.id)+'"><i style="background:'+CROPS[k.tanaman].warna+'"></i>'+esc(k.nama)+'</button>';});return h+"</div>";}
+
+function render(){
+ document.querySelectorAll(".nav button").forEach(function(b){if(b.dataset.v===ui.v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
+ if(ui.k!=="all"&&!kebunById(ui.k))ui.k="all";
+ var f={utama:vUtama,sihat:vSihat,duit:vDuit,bahan:vBahan,lagi:vLagi,tentang:vTentang,panel:vPanel}[ui.v]||vUtama;
+ view.innerHTML=f();
+ view.querySelectorAll("[data-k]").forEach(function(b){b.addEventListener("click",function(){ui.k=b.dataset.k;render();});});
+ bind();
+}
+
+function vUtama(){
+ if(!S.kebun.length){return installHTML()+'<div class="block"><h2>Mula dengan kebun pertama</h2><p>Pilih jenis tanaman. Anda boleh tambah lebih daripada satu kebun kemudian.</p><div class="crops" style="margin-top:12px">'+
+  ["padi","getah","sawit"].map(function(c){return '<button class="crop" data-act="addKebun" data-c="'+c+'">'+ICON[c]+CROPS[c].nama+'</button>';}).join("")+
+  '</div></div><div class="block"><h2>Mahu lihat contoh dahulu?</h2><p>Data contoh mengandungi sawah padi 1.2 hektar, kebun getah 2 hektar dan ladang sawit 3 hektar dengan rekod enam bulan. Anda boleh padam bila-bila masa.</p><button class="btn full" data-act="demo" style="margin-top:8px">Cuba data contoh</button></div>'+
+  '<div class="block"><h2>Kenapa rekod?</h2><p>Tanpa rekod bulanan, petani hanya tahu jumlah jualan, bukan untung. Kos baja, upah dan racun yang dibayar sedikit demi sedikit selalunya lebih besar daripada yang disangka.</p><button class="link" data-act="go" data-v="tentang">Baca tentang projek ini</button></div>';}
+ var bm=mk(todayISO()),by=sums(inFilter),cur=by[bm]||{h:0,k:0},six=lastMonths(6),tot={h:0,k:0};
+ six.forEach(function(m){if(by[m]){tot.h+=by[m].h;tot.k+=by[m].k;}});
+ var nama=S.profil.nama?esc(S.profil.nama.split(" ")[0]):"";
+ var h=installHTML()+'<p class="muted small" style="margin:0 0 8px">'+(nama?"Assalamualaikum, "+nama+". ":"")+fdate(todayISO())+'</p>'+chipsHTML();
+ h+='<section class="ledger" aria-label="Untung bulan ini"><svg class="bund" viewBox="0 0 100 100" aria-hidden="true"><path d="M0 20h100M0 45h100M0 70h100M30 0v100M70 0v100" stroke="#fff" stroke-width="5"/></svg><div class="lab">Untung bersih '+mLabel(bm)+'</div><div class="big">'+rm(cur.h-cur.k)+'</div><div class="split"><div>Hasil<b>'+rm(cur.h)+'</b></div><div>Kos<b>'+rm(cur.k)+'</b></div></div><div class="split" style="border-top:0;padding-top:6px"><div>Untung 6 bulan<b>'+rm(tot.h-tot.k)+'</b></div><div>Purata sebulan<b>'+rm((tot.h-tot.k)/6)+'</b></div></div></section>';
+ h+='<div class="qa"><button data-act="tx" data-j="kos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Catat kos</button><button data-act="tx" data-j="hasil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-7"/><path d="M15 8h5v5"/></svg>Catat hasil</button><button data-act="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 5-15 15-16-1 10-7 15-15 16z"/></svg>Semak pokok</button></div>';
+ var alerts=[];
+ allTasks().forEach(function(t){if(t.done)return;if(t.dd!=null){if(t.dd<0)alerts.push(["bad",t.t,esc(t.k.nama)+": lewat "+(-t.dd)+" hari"]);else if(t.dd<=7)alerts.push(["warn",t.t,esc(t.k.nama)+": "+(t.dd===0?"hari ini":"dalam "+t.dd+" hari")]);}});
+ S.stok.forEach(function(s){if(s.baki<=s.min&&(ui.k==="all"||!s.kebunId||s.kebunId===ui.k))alerts.push(["warn","Stok "+esc(s.nama)+" rendah","Baki "+s.baki+" "+esc(s.unit)+". Masukkan dalam senarai beli."]);});
+ h+='<div class="block"><div class="row between"><h2>Perlu dibuat</h2><button class="link" data-act="go" data-v="bahan">Semua tugas</button></div>';
+ if(!alerts.length)h+='<p class="muted">Tiada tugas mendesak atau stok rendah. Tugas bulanan ada di tab Bahan.</p>';
+ alerts.slice(0,5).forEach(function(a){h+='<div class="alert '+a[0]+'"><div><b>'+a[1]+'</b>'+a[2]+'</div></div>';});
+ h+='</div><div class="block"><div class="row between"><h2>Kebun saya</h2><button class="link" data-act="addKebun">Tambah kebun</button></div>';
+ S.kebun.forEach(function(k){var lh=lastHealth(k.id),st=hStatus(lh&&lh.skor);h+='<div class="plot"><div class="ic">'+ICON[k.tanaman]+'</div><div><b>'+esc(k.nama)+'</b><span class="muted small">'+CROPS[k.tanaman].pendek+", "+k.luas+' ha'+(k.lokasi?", "+esc(k.lokasi):"")+'</span><div class="meter" aria-hidden="true"><span style="width:'+(lh?lh.skor:0)+'%;background:'+st[2]+'"></span></div></div><div style="text-align:right"><span class="tag '+st[0]+'">'+st[1]+'</span><br><button class="link small" data-act="editKebun" data-id="'+k.id+'">Ubah</button></div></div>';});
+ h+='</div>';
+ if(S.demo)h+='<div class="alert warn"><div><b>Anda sedang melihat data contoh</b>Padam data contoh di tab Lagi sebelum mula merekod kebun sendiri.</div></div>';
+ return h;}
+
+function vSihat(){
+ if(!S.kebun.length)return emptyKebun();
+ var h='<h2 style="font-size:22px;margin:4px 0 10px">Kesihatan pokok</h2>'+chipsHTML();
+ S.kebun.filter(function(k){return ui.k==="all"||ui.k===k.id;}).forEach(function(k){
+  var lh=lastHealth(k.id),st=hStatus(lh&&lh.skor);
+  h+='<div class="block"><div class="row" style="gap:12px"><div class="plot" style="grid-template-columns:44px 1fr;border:0;padding:0;flex:1"><div class="ic">'+ICON[k.tanaman]+'</div><div><b>'+esc(k.nama)+'</b><span class="muted small">'+(lh?"Semakan terakhir "+fdate(lh.tarikh):"Belum pernah disemak")+'</span></div></div><span class="tag '+st[0]+'">'+(lh?lh.skor+"/100":"–")+'</span></div>';
+  if(lh&&lh.simptom.length){h+='<h3>Tanda yang ditemui</h3>';lh.simptom.forEach(function(s){var d=SIMPTOM[k.tanaman].find(function(x){return x[0]===s;});if(d)h+='<div class="alert '+(d[2]>=25?"bad":"warn")+'"><div><b>'+d[1]+'</b>'+d[3]+'</div></div>';});}
+  else if(lh)h+='<p class="muted small">Tiada tanda masalah pada semakan terakhir.</p>';
+  var hist=S.sihat.filter(function(x){return x.kebunId===k.id;}).sort(function(a,b){return a.tarikh.localeCompare(b.tarikh);}).slice(-8);
+  if(hist.length>1){h+='<h3>Trend skor</h3>'+spark(hist.map(function(x){return x.skor;}),hist.map(function(x){return fdate(x.tarikh);}));}
+  h+='<button class="btn full" style="margin-top:10px" data-act="check" data-id="'+k.id+'">Semak '+esc(k.nama)+' sekarang</button></div>';});
+ h+='<div class="block" id="aiBlock"><h2>Tanya pakar AI</h2><p>Terangkan apa yang anda lihat atau lampirkan gambar daun, batang atau buah. Jawapan ini panduan awal sahaja; sahkan dengan pegawai pertanian daerah sebelum membeli racun.</p>'+
+  '<label class="f">Kebun<select class="inp" id="aiK">'+S.kebun.map(function(k){return'<option value="'+k.id+'">'+esc(k.nama)+'</option>';}).join("")+'</select></label>'+
+  '<label class="f">Apa yang anda lihat?<textarea class="inp" id="aiQ" placeholder="Contoh: daun padi ada bintik perang berbentuk mata, petak sebelah juga sama"></textarea></label>'+
+  '<label class="f" id="aiImgL" hidden>Gambar (pilihan)<input class="inp" type="file" accept="image/*" capture="environment" id="aiImg"></label>'+
+  '<button class="btn full" data-act="ai" id="aiBtn">Dapatkan pandangan</button><div class="ai-out" id="aiOut" hidden aria-live="polite"></div><p class="muted small" id="aiNo" hidden>Pakar AI tidak tersedia dalam paparan ini. Semakan simptom di atas tetap berfungsi.</p></div>';
+ return h;}
+
+function spark(vals,labels){var w=300,hgt=90,n=vals.length,px=function(i){return 14+i*(w-28)/(n-1);},py=function(v){return 10+(100-v)*(hgt-24)/100;};
+ var d=vals.map(function(v,i){return(i?"L":"M")+px(i).toFixed(1)+" "+py(v).toFixed(1);}).join(" ");
+ return '<svg viewBox="0 0 '+w+' '+hgt+'" width="100%" role="img" aria-label="Trend skor kesihatan: '+vals.join(", ")+'"><line x1="0" x2="'+w+'" y1="'+py(80)+'" y2="'+py(80)+'" stroke="var(--good)" stroke-dasharray="4 4" opacity=".6"/><line x1="0" x2="'+w+'" y1="'+py(50)+'" y2="'+py(50)+'" stroke="var(--bad)" stroke-dasharray="4 4" opacity=".5"/><path d="'+d+'" fill="none" stroke="var(--daun)" stroke-width="2.5"/>'+vals.map(function(v,i){return'<circle cx="'+px(i)+'" cy="'+py(v)+'" r="4" fill="'+hStatus(v)[2]+'"><title>'+labels[i]+": "+v+'</title></circle>';}).join("")+'</svg>';}
+
+function vDuit(){
+ if(!S.kebun.length)return emptyKebun();
+ var h='<h2 style="font-size:22px;margin:4px 0 10px">Kewangan kebun</h2>'+chipsHTML()+
+ '<div class="seg" role="group" aria-label="Paparan kewangan">'+[["ringkas","Ringkasan"],["rekod","Rekod"],["kos","Pecahan kos"]].map(function(t){return'<button data-tab="'+t[0]+'" aria-pressed="'+(ui.duitTab===t[0])+'">'+t[1]+'</button>';}).join("")+'</div>';
+ var by=sums(inFilter),months=lastMonths(12),six=months.slice(-6);
+ if(ui.duitTab==="ringkas"){
+  var mx=1;six.forEach(function(m){var v=by[m]?Math.abs(by[m].h-by[m].k):0;mx=Math.max(mx,v);});
+  var W=320,H=170,bw=(W-20)/6,base=H/2+10;
+  var svg='<svg viewBox="0 0 '+W+' '+(H+28)+'" width="100%" role="img" aria-label="Untung bersih enam bulan terakhir"><line x1="6" x2="'+(W-6)+'" y1="'+base+'" y2="'+base+'" stroke="var(--line)" stroke-width="2"/>';
+  six.forEach(function(m,i){var v=by[m]?by[m].h-by[m].k:0,hh=Math.abs(v)/mx*(H/2-14),x=10+i*bw+bw*.18,y=v>=0?base-hh:base;
+   svg+='<rect x="'+x+'" y="'+y+'" width="'+(bw*.64)+'" height="'+Math.max(hh,1.5)+'" rx="5" fill="'+(v>=0?"var(--good)":"var(--bad)")+'"><title>'+mLabel(m)+": "+rm(v)+'</title></rect><text x="'+(x+bw*.32)+'" y="'+(H+20)+'" text-anchor="middle" font-size="12" fill="var(--muted)">'+BULAN[+m.slice(5)-1]+'</text>';});
+  svg+='</svg>';
+  h+='<div class="block"><h2>Untung bersih 6 bulan</h2><p class="muted small">Hijau bermaksud untung, merah bermaksud rugi pada bulan itu. Bulan tuai padi biasanya tinggi; bulan lain mungkin rugi kerana kos berjalan.</p>'+svg+'</div>';
+  var rows="",tH=0,tK=0;months.slice().reverse().forEach(function(m){var r=by[m]||{h:0,k:0};if(!r.h&&!r.k)return;tH+=r.h;tK+=r.k;rows+='<tr><td>'+mLabel(m)+'</td><td>'+rn(r.h)+'</td><td>'+rn(r.k)+'</td><td style="color:'+(r.h-r.k>=0?"var(--good)":"var(--bad)")+';font-weight:700">'+rn(r.h-r.k)+'</td></tr>';});
+  h+='<div class="block"><h2>Jadual bulanan</h2><div class="tbl-wrap"><table><thead><tr><th>Bulan</th><th>Hasil (RM)</th><th>Kos (RM)</th><th>Untung (RM)</th></tr></thead><tbody>'+(rows||'<tr><td colspan="4" class="muted">Belum ada rekod. Mula dengan Catat kos atau Catat hasil.</td></tr>')+'</tbody>'+(rows?'<tfoot><tr><th>12 bulan</th><th>'+rn(tH)+'</th><th>'+rn(tK)+'</th><th>'+rn(tH-tK)+'</th></tr></tfoot>':'')+'</table></div>';
+  var luas=S.kebun.filter(function(k){return ui.k==="all"||ui.k===k.id;}).reduce(function(a,k){return a+num(k.luas);},0);
+  if(luas>0&&rows)h+='<p class="small" style="margin-top:10px">Untung 12 bulan bagi setiap hektar: <b>'+rm((tH-tK)/luas)+'</b> untuk '+luas.toLocaleString("ms-MY")+' ha. Angka ini berguna untuk dibandingkan dengan purata kawasan bersama pegawai pertanian.</p>';
+  h+='</div>';}
+ else if(ui.duitTab==="rekod"){
+  var list=S.duit.filter(inFilter).sort(function(a,b){return b.tarikh.localeCompare(a.tarikh)||b.at-a.at;});
+  h+='<div class="row" style="margin-bottom:12px"><button class="btn" style="flex:1" data-act="tx" data-j="kos">Catat kos</button><button class="btn ghost" style="flex:1" data-act="tx" data-j="hasil">Catat hasil</button></div><div class="block"><ul class="list">';
+  if(!list.length)h+='<li class="muted">Belum ada rekod.</li>';
+  list.slice(0,80).forEach(function(r){var k=kebunById(r.kebunId);h+='<li><div class="grow"><b>'+esc(r.kategori)+'</b><span class="muted small">'+fdate(r.tarikh)+(k?", "+esc(k.nama):"")+(r.kuantiti?", "+r.kuantiti+" "+esc(r.unit||""):"")+(r.nota?". "+esc(r.nota):"")+'</span></div><span class="amt '+(r.jenis==="hasil"?"plus":"minus")+'">'+(r.jenis==="hasil"?"+":"−")+rm(r.amaun).replace("RM ","RM")+'</span><button class="x" data-act="delTx" data-id="'+r.id+'" aria-label="Padam rekod '+esc(r.kategori)+'">×</button></li>';});
+  h+='</ul></div>';}
+ else{
+  var yr=String(new Date().getFullYear()),cat={},tot=0;S.duit.forEach(function(r){if(r.jenis!=="kos"||!inFilter(r)||r.tarikh.slice(0,4)!==yr)return;cat[r.kategori]=(cat[r.kategori]||0)+r.amaun;tot+=r.amaun;});
+  var arr=Object.keys(cat).map(function(c){return[c,cat[c]];}).sort(function(a,b){return b[1]-a[1];});
+  h+='<div class="block"><h2>Ke mana duit pergi, '+yr+'</h2><p class="muted small">Jumlah kos '+rm(tot)+'. Kategori paling atas ialah tempat pertama untuk mencari penjimatan.</p><div class="bars" style="margin-top:12px">';
+  if(!arr.length)h+='<p class="muted">Belum ada kos direkod tahun ini.</p>';
+  arr.forEach(function(a){h+='<div class="bar-row"><span>'+esc(a[0])+'</span><div class="tr"><span style="width:'+(a[1]/arr[0][1]*100)+'%"></span></div><span class="amt">'+Math.round(a[1]/tot*100)+'%</span></div>';});
+  h+='</div></div>';}
+ return h;}
+
+function vBahan(){
+ if(!S.kebun.length)return emptyKebun();
+ var h='<h2 style="font-size:22px;margin:4px 0 10px">Bahan dan penjagaan</h2>'+chipsHTML()+
+ '<div class="seg" role="group" aria-label="Paparan bahan">'+[["tugas","Tugas"],["stok","Stok"],["beli","Panduan beli"]].map(function(t){return'<button data-tab2="'+t[0]+'" aria-pressed="'+(ui.bahanTab===t[0])+'">'+t[1]+'</button>';}).join("")+'</div>';
+ if(ui.bahanTab==="tugas"){
+  S.kebun.filter(function(k){return ui.k==="all"||ui.k===k.id;}).forEach(function(k){var ts=tasksFor(k);
+   h+='<div class="block"><div class="row" style="gap:10px;margin-bottom:4px"><div class="ic" style="width:36px;height:36px">'+ICON[k.tanaman]+'</div><h2 style="margin:0">'+esc(k.nama)+'</h2></div>';
+   if(k.tanaman==="padi")h+='<p class="muted small">'+(k.tarikh?"Hari ke-"+diffDays(k.tarikh,todayISO())+" selepas tabur ("+fdate(k.tarikh)+"). Tarikh ialah anggaran; ikut cadangan MARDI dan pegawai kawasan.":"Masukkan tarikh tabur di Ubah kebun untuk melihat jadual.")+'</p>';
+   else h+='<p class="muted small">Tugas berulang untuk tempoh semasa. Tanda bila selesai.</p>';
+   if(!ts.length)h+='<p class="muted">Tiada tugas dalam tempoh dua minggu ini.</p>';
+   ts.forEach(function(t){var when=t.dd!=null?(t.dd<0?'<span class="tag bad">Lewat '+(-t.dd)+' hari</span>':t.dd===0?'<span class="tag warn">Hari ini</span>':'<span class="tag plain">'+fdate(t.due)+'</span>'):'<span class="tag plain">'+({bulan:"Bulan ini",suku:"Suku tahun ini",separuh:"Separuh tahun ini"})[t.per]+'</span>';
+    h+='<label class="task'+(t.done?" done":"")+'"><input type="checkbox" data-task="'+esc(t.key)+'"'+(t.done?" checked":"")+'><div class="grow"><b>'+esc(t.t)+'</b><span class="muted small">'+esc(t.d)+'</span></div>'+when+'</label>';});
+   h+='</div>';});}
+ else if(ui.bahanTab==="stok"){
+  var st=S.stok.filter(function(s){return ui.k==="all"||!s.kebunId||s.kebunId===ui.k;});
+  h+='<div class="block"><div class="row between"><h2>Stok di stor</h2><button class="btn sm" data-act="stok">Tambah</button></div><ul class="list">';
+  if(!st.length)h+='<li class="muted">Belum ada stok. Tambah baja, racun atau bahan yang disimpan supaya aplikasi boleh beri amaran bila hampir habis.</li>';
+  st.forEach(function(s){var low=s.baki<=s.min;h+='<li><div class="grow"><b>'+esc(s.nama)+'</b><span class="muted small">Paras minimum '+s.min+' '+esc(s.unit)+'</span></div>'+(low?'<span class="tag warn">Beli</span>':'')+'<button class="btn ghost sm" data-act="stokAdj" data-id="'+s.id+'" data-d="-1" aria-label="Kurang satu '+esc(s.nama)+'">−</button><span class="amt" style="min-width:56px;text-align:center">'+s.baki+' '+esc(s.unit)+'</span><button class="btn ghost sm" data-act="stokAdj" data-id="'+s.id+'" data-d="1" aria-label="Tambah satu '+esc(s.nama)+'">+</button><button class="x" data-act="delStok" data-id="'+s.id+'" aria-label="Padam '+esc(s.nama)+'">×</button></li>';});
+  h+='</ul></div>';
+  var low=S.stok.filter(function(s){return s.baki<=s.min;});
+  if(low.length){h+='<div class="block"><h2>Senarai beli</h2><ul class="list">'+low.map(function(s){return'<li><div class="grow"><b>'+esc(s.nama)+'</b><span class="muted small">Baki '+s.baki+', sasaran sekurang-kurangnya '+(s.min*2)+' '+esc(s.unit)+'</span></div></li>';}).join("")+'</ul><p class="muted small">Selepas membeli, catat harga di Kewangan supaya kos bulan ini tepat.</p></div>';}}
+ else{
+  var crops=[];S.kebun.forEach(function(k){if((ui.k==="all"||ui.k===k.id)&&crops.indexOf(k.tanaman)<0)crops.push(k.tanaman);});
+  crops.forEach(function(c){h+='<div class="block"><h2>'+CROPS[c].nama+'</h2>'+PANDUAN[c].map(function(p){return'<h3>'+p[0]+'</h3><p>'+p[1]+'</p>';}).join("")+'</div>';});
+  h+='<div class="block"><h2>Kalkulator harga nutrien</h2><p>Baja yang murah sebeg belum tentu murah. Masukkan harga beg dan peratus nutrien (contohnya N dalam urea, atau K₂O dalam MOP) untuk melihat harga sebenar setiap kg nutrien.</p>'+
+  '<div class="two"><label class="f">Harga sebeg (RM)<input class="inp calc" id="cA" inputmode="decimal" value="90"></label><label class="f">Berat beg (kg)<input class="inp calc" id="cB" inputmode="decimal" value="50"></label></div><label class="f">Peratus nutrien (%)<input class="inp calc" id="cC" inputmode="decimal" value="46"></label><div class="alert good" id="cOut"></div>'+
+  '<p class="muted small">Bandingkan dua jenama dengan menukar nilai. Angka lalai hanya contoh.</p></div>';}
+ return h;}
+
+function vLagi(){
+ var h='<h2 style="font-size:22px;margin:4px 0 12px">Lagi</h2>'+installHTML()+'<div class="block"><h2>Profil petani</h2><p class="small">'+(S.profil.nama?"<b>"+esc(S.profil.nama)+"</b><br>"+esc([S.profil.daerah,S.profil.negeri].filter(Boolean).join(", ")):"Belum diisi.")+'</p><button class="btn ghost sm" data-act="profil">Kemas kini profil</button></div>'+
+ '<div class="block"><h2>Tinjauan keperluan petani</h2><p>Jawapan tinjauan membantu Jabatan Pertanian memahami cabaran sebenar petani di negeri anda. Rekod kewangan anda tidak dikongsi.</p><button class="btn full" data-act="survey">'+(S.surveyAt?"Kemas kini jawapan tinjauan":"Isi tinjauan (2 minit)")+'</button></div>'+
+ '<div class="block"><h2>Eksport rekod</h2><p>Muat turun semua rekod kewangan sebagai fail CSV untuk dibuka dalam Excel, dibawa ke bank atau ditunjukkan kepada pegawai.</p><button class="btn ghost full" data-act="csv">Muat turun CSV</button></div>';
+ if(isOwner)h+='<div class="block"><h2>Panel pegawai</h2><p>Ringkasan semua jawapan tinjauan yang diterima. Hanya pemilik aplikasi boleh melihat panel ini.</p><button class="btn full" data-act="go" data-v="panel">Buka panel tinjauan</button></div>';
+ h+='<div class="block"><h2>Tentang TaniKira</h2><p>Latar belakang projek dan cadangan perintis bersama Jabatan Pertanian.</p><button class="btn ghost sm" data-act="go" data-v="tentang">Baca</button></div>'+
+ '<div class="block"><h2>Data</h2>'+(S.demo?'<p>Data contoh sedang dipaparkan.</p><button class="btn bad full" data-act="wipe">Padam data contoh dan mula baharu</button>':'<p>Padam semua kebun dan rekod dalam aplikasi ini. Tindakan ini tidak boleh dibatalkan.</p><button class="btn ghost full" data-act="wipe">Padam semua data</button>')+'</div>'+
+ '<p class="muted small" style="text-align:center;margin-top:18px">TaniKira versi perintis 1.0 (PWA)<br>© 2026 Universiti Sains Malaysia. Dibangunkan oleh Ir. Ts. Dr. Muhammad Hafiz HASSAN.</p>';
+ return h;}
+
+function vTentang(){return '<button class="link" data-act="go" data-v="lagi">Kembali</button><div class="about" style="padding-top:4px">'+aboutHTML()+'</div>';}
+function aboutHTML(){var t=document.getElementById("aboutTpl").innerHTML;return t.replace("__ICON_padi__",ICON.padi).replace("__ICON_getah__",ICON.getah).replace("__ICON_sawit__",ICON.sawit);}
+
+var panelData=null;
+function vPanel(){
+ var h='<button class="link" data-act="go" data-v="lagi">Kembali</button><h2 style="font-size:22px;margin:6px 0 12px">Panel tinjauan petani</h2>';
+ if(!isOwner)return h+'<p>Panel ini untuk pemilik aplikasi sahaja.</p>';
+ if(!panelData){loadPanel();return h+'<div class="block"><p class="muted">Memuatkan jawapan tinjauan…</p></div>';}
+ if(panelData.err)return h+'<div class="block"><p>Jawapan tinjauan tidak dapat dimuatkan sekarang. Cuba buka semula panel sebentar lagi.</p></div>';
+ var R=panelData.rows;if(!R.length)return h+'<div class="block"><p>Belum ada jawapan. Kongsi pautan aplikasi kepada petani dan minta mereka mengisi tinjauan di tab Lagi.</p></div>';
+ function count(field,multi){var c={};R.forEach(function(r){var v=r[field];(multi?(v||[]):[v]).forEach(function(x){if(x)c[x]=(c[x]||0)+1;});});return Object.keys(c).map(function(k){return[k,c[k]];}).sort(function(a,b){return b[1]-a[1];});}
+ function bars(arr){if(!arr.length)return'<p class="muted">Tiada data.</p>';var m=arr[0][1];return'<div class="bars">'+arr.map(function(a){return'<div class="bar-row"><span>'+esc(a[0])+'</span><div class="tr"><span style="width:'+(a[1]/m*100)+'%"></span></div><span class="amt">'+a[1]+'</span></div>';}).join("")+'</div>';}
+ var luas=R.reduce(function(a,r){return a+num(r.luas);},0);
+ var noRec=R.filter(function(r){return r.rekod==="Tidak pernah";}).length;
+ h+='<div class="ledger"><div class="lab">Jumlah responden</div><div class="big">'+R.length+'</div><div class="split"><div>Jumlah keluasan<b>'+luas.toLocaleString("ms-MY",{maximumFractionDigits:1})+' ha</b></div><div>Tiada rekod kewangan<b>'+Math.round(noRec/R.length*100)+'%</b></div></div></div>';
+ [["Negeri","negeri",false],["Tanaman","tanaman",true],["Amalan rekod kewangan","rekod",false],["Cabaran utama","cabaran",true],["Latihan diperlukan","latihan",true],["Umur","umur",false]].forEach(function(x){h+='<div class="block"><h2>'+x[0]+'</h2>'+bars(count(x[1],x[2]))+'</div>';});
+ var notes=R.filter(function(r){return r.cadangan;}).slice(0,30);
+ if(notes.length)h+='<div class="block"><h2>Cadangan petani</h2><ul class="list">'+notes.map(function(r){return'<li><div class="grow"><span class="muted small">'+esc(r.negeri||"")+(r.daerah?", "+esc(r.daerah):"")+'</span><br>'+esc(r.cadangan)+'</div></li>';}).join("")+'</ul></div>';
+ h+='<button class="btn ghost full" data-act="csvSurvey">Muat turun jawapan tinjauan (CSV)</button>';
+ return h;}
+function loadPanel(){if(!db){panelData={err:1};render();return;}var done=false,tm=setTimeout(function(){if(!done){done=true;panelData={err:1};if(ui.v==="panel")render();}},10000);
+ db.collection("tinjauan").limit(1000).get().then(function(snap){if(done)return;done=true;clearTimeout(tm);panelData={rows:snap.docs.map(function(d){return d.data()||{};})};if(ui.v==="panel")render();}).catch(function(){if(done)return;done=true;clearTimeout(tm);panelData={err:1};if(ui.v==="panel")render();});}
+
+function emptyKebun(){return'<div class="block" style="margin-top:8px"><h2>Tiada kebun lagi</h2><p>Tambah kebun pertama di skrin Utama atau cuba data contoh.</p><button class="btn" data-act="go" data-v="utama">Ke skrin Utama</button></div>';}
+
+/* ---------- bindings ---------- */
+function bind(){
+ view.querySelectorAll("[data-act]").forEach(function(b){b.addEventListener("click",act);});
+ view.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){ui.duitTab=b.dataset.tab;render();});});
+ view.querySelectorAll("[data-tab2]").forEach(function(b){b.addEventListener("click",function(){ui.bahanTab=b.dataset.tab2;render();});});
+ view.querySelectorAll("[data-task]").forEach(function(c){c.addEventListener("change",function(){if(c.checked)S.selesai[c.dataset.task]=todayISO();else delete S.selesai[c.dataset.task];save();render();});});
+ var calc=view.querySelectorAll(".calc");if(calc.length){var upd=function(){var a=num(document.getElementById("cA").value),b=num(document.getElementById("cB").value),c=num(document.getElementById("cC").value);var o=document.getElementById("cOut");if(a>0&&b>0&&c>0){o.className="alert good";o.innerHTML='<div><b>'+rm(a/(b*c/100))+' setiap kg nutrien</b>Beg ini mengandungi '+(b*c/100).toLocaleString("ms-MY",{maximumFractionDigits:1})+' kg nutrien.</div>';}else{o.className="alert warn";o.textContent="Masukkan ketiga-tiga nilai lebih daripada sifar.";}};calc.forEach(function(i){i.addEventListener("input",upd);});upd();}
+ if(document.getElementById("aiBtn"))aiSetup();
+}
+function act(e){var b=e.currentTarget,a=b.dataset.act;
+ if(a==="go")go(b.dataset.v);
+ else if(a==="addKebun")formKebun(null,b.dataset.c);
+ else if(a==="editKebun")formKebun(b.dataset.id);
+ else if(a==="tx")formTx(b.dataset.j);
+ else if(a==="check")formCheck(b.dataset.id);
+ else if(a==="demo"){S=demoData();save();ui.k="all";render();toast("Data contoh dimuatkan");}
+ else if(a==="delTx"){if(confirm("Padam rekod ini?")){S.duit=S.duit.filter(function(r){return r.id!==b.dataset.id;});save();render();}}
+ else if(a==="stok")formStok();
+ else if(a==="stokAdj"){var s=S.stok.find(function(x){return x.id===b.dataset.id;});if(s){s.baki=Math.max(0,s.baki+(+b.dataset.d));save();render();}}
+ else if(a==="delStok"){if(confirm("Padam item stok ini?")){S.stok=S.stok.filter(function(x){return x.id!==b.dataset.id;});save();render();}}
+ else if(a==="profil")formProfil();
+ else if(a==="survey")formSurvey();
+ else if(a==="csv")exportCSV();
+ else if(a==="csvSurvey")exportSurvey();
+ else if(a==="wipe"){if(confirm(S.demo?"Padam data contoh?":"Padam semua kebun dan rekod? Tindakan ini tidak boleh dibatalkan.")){var p=S.demo?blank().profil:S.profil;S=blank();S.profil=p;save();render();toast("Data dipadam");}}
+ else if(a==="ai")runAI();
+ else if(a==="install"&&deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;render();});}
+}
+
+/* ---------- sheet ---------- */
+var ov=document.getElementById("ov"),sheet=document.getElementById("sheet"),lastFocus=null;
+function openSheet(html,onReady){lastFocus=document.activeElement;sheet.innerHTML='<div class="grab" aria-hidden="true"></div>'+html;ov.hidden=false;document.body.style.overflow="hidden";var f=sheet.querySelector("input,select,textarea,button");if(f)f.focus();if(onReady)onReady();
+ sheet.querySelectorAll("[data-close]").forEach(function(b){b.addEventListener("click",closeSheet);});}
+function closeSheet(){ov.hidden=true;document.body.style.overflow="";if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+ov.addEventListener("click",function(e){if(e.target===ov)closeSheet();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!ov.hidden)closeSheet();});
+function val(id){return document.getElementById(id).value.trim();}
+
+function formKebun(id,crop){var k=id?kebunById(id):null;var c=k?k.tanaman:(crop||"padi");
+ openSheet('<h2 id="sheetTitle">'+(k?"Ubah kebun":"Tambah kebun")+'</h2><div class="crops" role="group" aria-label="Jenis tanaman" style="margin-bottom:14px">'+["padi","getah","sawit"].map(function(x){return'<button type="button" class="crop" data-crop="'+x+'" aria-pressed="'+(x===c)+'">'+ICON[x]+CROPS[x].pendek+'</button>';}).join("")+'</div>'+
+ '<label class="f">Nama kebun<span class="h">Nama yang mudah dikenali, contoh "Sawah Lot 12"</span><input class="inp" id="kN" value="'+esc(k?k.nama:"")+'" maxlength="40"></label>'+
+ '<div class="two"><label class="f">Keluasan (hektar)<input class="inp" id="kL" inputmode="decimal" value="'+esc(k?k.luas:"")+'"></label><label class="f"><span id="kTl">'+CROPS[c].tarikh+'</span><input class="inp" type="date" id="kT" value="'+esc(k?k.tarikh:"")+'"></label></div>'+
+ '<label class="f">Lokasi (kampung atau daerah)<input class="inp" id="kO" value="'+esc(k?k.lokasi:"")+'" maxlength="50"></label>'+
+ '<div class="acts">'+(k?'<button class="btn bad" id="kDel" style="flex:0 0 auto">Padam</button>':'')+'<button class="btn ghost" data-close>Batal</button><button class="btn" id="kSave">Simpan</button></div>',function(){
+  sheet.querySelectorAll("[data-crop]").forEach(function(b){b.addEventListener("click",function(){c=b.dataset.crop;sheet.querySelectorAll("[data-crop]").forEach(function(x){x.setAttribute("aria-pressed",x===b);});document.getElementById("kTl").textContent=CROPS[c].tarikh;});});
+  document.getElementById("kSave").addEventListener("click",function(){var n=val("kN"),l=num(val("kL"));if(!n||l<=0){toast("Isi nama kebun dan keluasan lebih daripada 0");return;}
+   var o={nama:n,tanaman:c,luas:l,tarikh:val("kT"),lokasi:val("kO")};if(k)Object.assign(k,o);else{o.id=uidGen();S.kebun.push(o);}save();closeSheet();render();toast(k?"Kebun dikemas kini":"Kebun ditambah");});
+  var d=document.getElementById("kDel");if(d)d.addEventListener("click",function(){if(confirm("Padam kebun ini bersama semua rekodnya?")){S.kebun=S.kebun.filter(function(x){return x.id!==k.id;});S.duit=S.duit.filter(function(r){return r.kebunId!==k.id;});S.sihat=S.sihat.filter(function(r){return r.kebunId!==k.id;});save();closeSheet();render();}});});}
+
+function kebunOpts(sel){return S.kebun.map(function(k){return'<option value="'+k.id+'"'+(k.id===sel?" selected":"")+'>'+esc(k.nama)+" ("+CROPS[k.tanaman].pendek+')</option>';}).join("");}
+function formTx(j){if(!S.kebun.length){formKebun();return;}var jenis=j||"kos";var kid=ui.k!=="all"?ui.k:S.kebun[0].id;
+ openSheet('<h2 id="sheetTitle">Catat rekod</h2><div class="seg" role="group" aria-label="Jenis rekod"><button type="button" data-j="kos" aria-pressed="'+(jenis==="kos")+'">Kos (wang keluar)</button><button type="button" data-j="hasil" aria-pressed="'+(jenis==="hasil")+'">Hasil (wang masuk)</button></div>'+
+ '<label class="f">Kebun<select class="inp" id="tK">'+kebunOpts(kid)+'</select></label><label class="f">Kategori<select class="inp" id="tC"></select></label>'+
+ '<div class="two"><label class="f">Kuantiti<span class="h">Pilihan</span><input class="inp" id="tQ" inputmode="decimal"></label><label class="f">Unit<span class="h">kg, beg, botol, hari</span><input class="inp" id="tU" maxlength="12"></label></div>'+
+ '<div class="two"><label class="f">Harga seunit (RM)<span class="h">Pilihan</span><input class="inp" id="tP" inputmode="decimal"></label><label class="f">Jumlah (RM)<span class="h">Wajib</span><input class="inp" id="tA" inputmode="decimal"></label></div>'+
+ '<label class="f">Tarikh<input class="inp" type="date" id="tD" value="'+todayISO()+'"></label><label class="f">Nota<input class="inp" id="tN" maxlength="80" placeholder="Contoh: kedai baja Pekan, resit #221"></label>'+
+ '<div class="acts"><button class="btn ghost" data-close>Batal</button><button class="btn" id="tSave">Simpan</button></div>',function(){
+  function cats(){var k=kebunById(document.getElementById("tK").value);var arr=CROPS[k.tanaman][jenis];document.getElementById("tC").innerHTML=arr.map(function(x){return'<option>'+esc(x)+'</option>';}).join("");if(jenis==="hasil"&&!val("tU"))document.getElementById("tU").value="kg";}
+  cats();document.getElementById("tK").addEventListener("change",cats);
+  sheet.querySelectorAll(".seg [data-j]").forEach(function(b){b.addEventListener("click",function(){jenis=b.dataset.j;sheet.querySelectorAll(".seg [data-j]").forEach(function(x){x.setAttribute("aria-pressed",x===b);});cats();});});
+  function auto(){var q=num(val("tQ")),p=num(val("tP"));if(q>0&&p>0)document.getElementById("tA").value=(q*p).toFixed(2);}
+  document.getElementById("tQ").addEventListener("input",auto);document.getElementById("tP").addEventListener("input",auto);
+  document.getElementById("tSave").addEventListener("click",function(){var a=num(val("tA"));if(a<=0){toast("Masukkan jumlah RM lebih daripada 0");return;}var d=val("tD")||todayISO();
+   S.duit.push({id:uidGen(),at:Date.now(),kebunId:val("tK"),jenis:jenis,kategori:val("tC"),tarikh:d,amaun:Math.round(a*100)/100,kuantiti:num(val("tQ"))||null,unit:val("tU"),nota:val("tN")});save();closeSheet();render();toast((jenis==="kos"?"Kos ":"Hasil ")+rm(a)+" disimpan");});});}
+
+function formCheck(id){if(!S.kebun.length){formKebun();return;}var kid=id||(ui.k!=="all"?ui.k:S.kebun[0].id);
+ openSheet('<h2 id="sheetTitle">Semakan kesihatan pokok</h2><p class="small">Jalan di beberapa tempat dalam kebun. Tanda semua yang anda nampak.</p><label class="f">Kebun<select class="inp" id="cK">'+kebunOpts(kid)+'</select></label><div class="checks" id="cS"></div><label class="f">Nota<textarea class="inp" id="cN" placeholder="Contoh: tompok di hujung petak dekat parit"></textarea></label><div id="cR"></div><div class="acts"><button class="btn ghost" data-close>Batal</button><button class="btn" id="cSave">Simpan semakan</button></div>',function(){
+  function list(){var k=kebunById(val("cK"));document.getElementById("cS").innerHTML=SIMPTOM[k.tanaman].map(function(s){return'<label><input type="checkbox" value="'+s[0]+'"><span>'+s[1]+'</span></label>';}).join("");score();document.querySelectorAll("#cS input").forEach(function(i){i.addEventListener("change",score);});}
+  function score(){var k=kebunById(val("cK")),sel=[].slice.call(document.querySelectorAll("#cS input:checked")).map(function(i){return i.value;});var sc=100;sel.forEach(function(s){var d=SIMPTOM[k.tanaman].find(function(x){return x[0]===s;});sc-=d[2];});sc=Math.max(0,sc);var st=hStatus(sc);
+   document.getElementById("cR").innerHTML='<div class="alert '+st[0]+'"><div><b>Skor '+sc+'/100: '+st[1]+'</b>'+(sel.length?"Langkah disyorkan akan dipaparkan di tab Kesihatan selepas disimpan.":"Tiada masalah ditanda.")+'</div></div>';return{sc:sc,sel:sel};}
+  list();document.getElementById("cK").addEventListener("change",list);
+  document.getElementById("cSave").addEventListener("click",function(){var r=score();S.sihat.push({id:uidGen(),at:Date.now(),kebunId:val("cK"),tarikh:todayISO(),simptom:r.sel,skor:r.sc,nota:val("cN")});save();closeSheet();ui.v="sihat";render();toast("Semakan disimpan");});});}
+
+function formStok(){openSheet('<h2 id="sheetTitle">Tambah stok</h2><label class="f">Nama bahan<input class="inp" id="sN" maxlength="40" placeholder="Contoh: Baja urea"></label><div class="two"><label class="f">Baki sekarang<input class="inp" id="sB" inputmode="decimal"></label><label class="f">Unit<input class="inp" id="sU" value="beg" maxlength="12"></label></div><label class="f">Paras minimum<span class="h">Aplikasi beri amaran bila baki sama atau kurang daripada nilai ini</span><input class="inp" id="sM" inputmode="decimal" value="1"></label><label class="f">Untuk kebun<select class="inp" id="sK"><option value="">Semua kebun</option>'+kebunOpts("")+'</select></label><div class="acts"><button class="btn ghost" data-close>Batal</button><button class="btn" id="sSave">Simpan</button></div>',function(){
+ document.getElementById("sSave").addEventListener("click",function(){var n=val("sN");if(!n){toast("Isi nama bahan");return;}S.stok.push({id:uidGen(),nama:n,baki:num(val("sB")),unit:val("sU")||"unit",min:num(val("sM")),kebunId:val("sK")||null});save();closeSheet();render();});});}
+
+function formProfil(){var p=S.profil;openSheet('<h2 id="sheetTitle">Profil petani</h2><label class="f">Nama<input class="inp" id="pN" value="'+esc(p.nama)+'" maxlength="60"></label><label class="f">Negeri<select class="inp" id="pS"><option value="">Pilih negeri</option>'+NEGERI.map(function(n){return'<option'+(n===p.negeri?" selected":"")+'>'+n+'</option>';}).join("")+'</select></label><label class="f">Daerah<input class="inp" id="pD" value="'+esc(p.daerah)+'" maxlength="40"></label><div class="acts"><button class="btn ghost" data-close>Batal</button><button class="btn" id="pSave">Simpan</button></div>',function(){
+ document.getElementById("pSave").addEventListener("click",function(){S.profil={nama:val("pN"),negeri:val("pS"),daerah:val("pD"),tel:""};save();closeSheet();render();toast("Profil disimpan");});});}
+
+var CABARAN=["Harga baja dan racun tinggi","Kos upah pekerja","Penyakit dan perosak","Harga jualan tidak menentu","Banjir atau kemarau","Kekurangan modal","Pengetahuan teknikal","Akses jentera","Pengairan","Tidak tahu untung sebenar"];
+var LATIHAN=["Rekod kewangan dan untung","Kawalan penyakit dan perosak","Pembajaan yang betul","Pemasaran dan jualan digital","Penggunaan jentera dan dron","Akses geran dan pinjaman"];
+function formSurvey(){var p=S.profil,old=S.survey||{};var crops=old.tanaman||S.kebun.map(function(k){return CROPS[k.tanaman].pendek;}).filter(function(v,i,a){return a.indexOf(v)===i;});
+ function cb(name,arr,sel){return'<div class="checks">'+arr.map(function(x){return'<label><input type="checkbox" name="'+name+'" value="'+esc(x)+'"'+(sel&&sel.indexOf(x)>=0?" checked":"")+'><span>'+esc(x)+'</span></label>';}).join("")+'</div>';}
+ openSheet('<h2 id="sheetTitle">Tinjauan keperluan petani</h2><p class="small">Jawapan dihantar kepada penyelaras projek untuk dibentangkan kepada Jabatan Pertanian. Rekod kewangan anda tidak dihantar.</p>'+
+ '<div class="two"><label class="f">Negeri<select class="inp" id="qS"><option value="">Pilih</option>'+NEGERI.map(function(n){return'<option'+(n===(old.negeri||p.negeri)?" selected":"")+'>'+n+'</option>';}).join("")+'</select></label><label class="f">Daerah<input class="inp" id="qD" value="'+esc(old.daerah||p.daerah)+'" maxlength="40"></label></div>'+
+ '<div class="two"><label class="f">Umur<select class="inp" id="qU">'+["","Bawah 25","25 hingga 34","35 hingga 40","Atas 40"].map(function(x){return'<option'+(x===old.umur?" selected":"")+' value="'+x+'">'+(x||"Pilih")+'</option>';}).join("")+'</select></label><label class="f">Jumlah keluasan (ha)<input class="inp" id="qL" inputmode="decimal" value="'+esc(old.luas||S.kebun.reduce(function(a,k){return a+num(k.luas);},0)||"")+'"></label></div>'+
+ '<label class="f">Tanaman yang diusahakan</label>'+cb("qT",["Padi","Getah","Sawit","Lain-lain"],crops)+
+ '<label class="f">Adakah anda menyimpan rekod kewangan bulanan sebelum ini?<select class="inp" id="qR">'+["","Ya, setiap bulan","Kadang-kadang","Tidak pernah"].map(function(x){return'<option'+(x===old.rekod?" selected":"")+' value="'+x+'">'+(x||"Pilih")+'</option>';}).join("")+'</select></label>'+
+ '<label class="f">Cabaran utama (pilih semua yang berkaitan)</label>'+cb("qC",CABARAN,old.cabaran)+
+ '<label class="f">Latihan yang anda perlukan</label>'+cb("qX",LATIHAN,old.latihan)+
+ '<label class="f">Cadangan kepada Jabatan Pertanian<textarea class="inp" id="qN" maxlength="400">'+esc(old.cadangan||"")+'</textarea></label>'+
+ '<div class="acts"><button class="btn ghost" data-close>Batal</button><button class="btn" id="qSave">Hantar</button></div><p class="muted small" id="qMsg"></p>',function(){
+ document.getElementById("qSave").addEventListener("click",function(){var g=function(n){return[].slice.call(sheet.querySelectorAll('input[name="'+n+'"]:checked')).map(function(i){return i.value;});};
+  var r={negeri:val("qS"),daerah:val("qD"),umur:val("qU"),luas:num(val("qL")),tanaman:g("qT"),rekod:val("qR"),cabaran:g("qC"),latihan:g("qX"),cadangan:val("qN"),dihantar:new Date().toISOString()};
+  if(!r.negeri||!r.tanaman.length){document.getElementById("qMsg").textContent="Pilih negeri dan sekurang-kurangnya satu tanaman.";return;}
+  S.survey=r;S.surveyAt=Date.now();save();var btn=document.getElementById("qSave");btn.disabled=true;btn.textContent="Menghantar…";
+  if(!db||!uid){closeSheet();render();sendSurveyEmail(r);return;}
+  db.doc("tinjauan/"+uid).set(r).then(function(){closeSheet();render();toast("Terima kasih. Jawapan tinjauan dihantar.");panelData=null;}).catch(function(){btn.disabled=false;btn.textContent="Hantar";document.getElementById("qMsg").textContent="Jawapan disimpan dalam peranti tetapi tidak dapat dihantar dari paparan ini.";});});});}
+
+function sendSurveyEmail(r){var lines=["TINJAUAN KEPERLUAN PETANI (TaniKira)","Negeri: "+r.negeri,"Daerah: "+r.daerah,"Umur: "+r.umur,"Keluasan (ha): "+r.luas,"Tanaman: "+r.tanaman.join("; "),"Rekod kewangan: "+r.rekod,"Cabaran: "+r.cabaran.join("; "),"Latihan: "+r.latihan.join("; "),"Cadangan: "+r.cadangan,"Dihantar: "+r.dihantar,"","CSV: "+[r.negeri,r.daerah,r.umur,r.luas,r.tanaman.join("; "),r.rekod,r.cabaran.join("; "),r.latihan.join("; "),r.cadangan,r.dihantar].map(csvCell).join(",")];
+ openSheet('<h2 id="sheetTitle">Hantar jawapan tinjauan</h2><p>Jawapan sudah disimpan dalam telefon. Tekan butang di bawah untuk menghantarnya kepada penyelaras projek melalui emel.</p><div class="acts" style="flex-direction:column"><a class="btn full" style="text-align:center;text-decoration:none;display:block" href="mailto:'+CONFIG.emelTinjauan+'?subject='+encodeURIComponent("Tinjauan TaniKira - "+r.negeri+(r.daerah?", "+r.daerah:""))+'&body='+encodeURIComponent(lines.join("\n"))+'">Hantar melalui emel</a><button class="btn ghost full" id="qCopy">Salin jawapan</button><button class="btn ghost full" data-close>Tutup</button></div>',function(){document.getElementById("qCopy").addEventListener("click",function(){var t=lines.join("\n");(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Jawapan disalin. Tampal dalam WhatsApp atau emel.");}).catch(function(){toast("Tidak dapat menyalin pada peranti ini");});});});}
+
+/* ---------- install (PWA) ---------- */
+var deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;if(ui.v==="utama"||ui.v==="lagi")render();});
+window.addEventListener("appinstalled",function(){deferredPrompt=null;toast("TaniKira dipasang di skrin utama");render();});
+function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);}
+function installHTML(){if(isStandalone())return"";
+ if(deferredPrompt)return'<div class="alert good"><div style="flex:1"><b>Pasang TaniKira di telefon</b>Buka terus dari skrin utama dan guna tanpa internet.</div><button class="btn sm" data-act="install">Pasang</button></div>';
+ if(isIOS())return'<div class="alert good"><div><b>Pasang di iPhone</b>Dalam Safari, tekan butang Kongsi kemudian pilih "Tambah ke Skrin Utama".</div></div>';
+ return"";}
+
+/* ---------- export ---------- */
+function csvCell(v){v=v==null?"":String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function saveFile(name,text){var data=new Blob(["\ufeff"+text],{type:"text/csv"});
+ if(dl){dl.save({filename:name,data:data}).then(function(){toast("Fail disimpan");}).catch(function(e){if(e&&e.code==="declined")return;toast("Fail tidak dapat disimpan di paparan ini");});}
+ else{try{var a=document.createElement("a");a.href=URL.createObjectURL(data);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1500);toast("Fail dimuat turun");}catch(e){toast("Muat turun tidak tersedia");}}}
+function exportCSV(){var rows=[["Tarikh","Kebun","Tanaman","Jenis","Kategori","Kuantiti","Unit","Jumlah (RM)","Nota"]];
+ S.duit.slice().sort(function(a,b){return a.tarikh.localeCompare(b.tarikh);}).forEach(function(r){var k=kebunById(r.kebunId)||{};rows.push([r.tarikh,k.nama,k.tanaman?CROPS[k.tanaman].pendek:"",r.jenis==="hasil"?"Hasil":"Kos",r.kategori,r.kuantiti||"",r.unit||"",r.amaun.toFixed(2),r.nota||""]);});
+ saveFile("TaniKira-rekod-"+todayISO()+".csv",rows.map(function(r){return r.map(csvCell).join(",");}).join("\n"));}
+function exportSurvey(){if(!panelData||!panelData.rows)return;var rows=[["Negeri","Daerah","Umur","Keluasan (ha)","Tanaman","Rekod kewangan","Cabaran","Latihan","Cadangan","Dihantar"]];
+ panelData.rows.forEach(function(r){rows.push([r.negeri,r.daerah,r.umur,r.luas,(r.tanaman||[]).join("; "),r.rekod,(r.cabaran||[]).join("; "),(r.latihan||[]).join("; "),r.cadangan,r.dihantar]);});
+ saveFile("TaniKira-tinjauan-"+todayISO()+".csv",rows.map(function(r){return r.map(csvCell).join(",");}).join("\n"));}
+
+/* ---------- AI ---------- */
+function aiSetup(){if(!sample){document.getElementById("aiBtn").hidden=true;document.getElementById("aiNo").hidden=false;["aiQ","aiK"].forEach(function(i){document.getElementById(i).closest("label").hidden=true;});return;}
+ if(sample.limits)sample.limits().then(function(l){if(l&&l.images)document.getElementById("aiImgL").hidden=false;}).catch(function(){});}
+var aiCtl=null;
+function runAI(){var q=val("aiQ"),k=kebunById(val("aiK")),out=document.getElementById("aiOut"),btn=document.getElementById("aiBtn"),f=document.getElementById("aiImg");var img=f&&f.files&&f.files[0];
+ if(!q&&!img){toast("Terangkan apa yang anda lihat atau lampirkan gambar");return;}
+ if(aiCtl)aiCtl.abort();aiCtl=new AbortController();out.hidden=false;out.textContent="Sedang menilai…";btn.disabled=true;
+ var lh=lastHealth(k.id);
+ var prompt="Anda pakar agronomi Malaysia yang membantu petani kecil. Jawab dalam Bahasa Melayu yang mudah, tanpa markdown, maksimum 180 patah perkataan.\nTanaman: "+CROPS[k.tanaman].nama+", keluasan "+k.luas+" ha"+(k.tarikh?", ditanam/tabur "+k.tarikh:"")+".\n"+(lh&&lh.simptom.length?"Simptom ditanda pada semakan terakhir: "+lh.simptom.join(", ")+".\n":"")+"Pemerhatian petani: "+(q||"(lihat gambar)")+"\nBerikan: 1) kemungkinan punca (paling mungkin dahulu), 2) apa yang perlu diperiksa di kebun, 3) tindakan segera yang selamat dan murah, 4) bila perlu menghubungi pegawai pertanian daerah. Jangan namakan jenama racun atau dos; nyatakan agar petani merujuk label berdaftar dan pegawai.";
+ var opts={signal:aiCtl.signal,onText:function(u){out.textContent=u.text||"Sedang menilai…";},modelTier:"default",cache:false};if(img)opts.images=[img];
+ sample(prompt,opts).then(function(r){out.textContent=r.text+"\n\nPanduan awal sahaja. Sahkan dengan pegawai pertanian daerah.";}).catch(function(e){if(e&&e.name==="AbortError")return;out.textContent=e&&e.code==="not_granted"?"Pakar AI tidak dibenarkan dalam paparan ini.":e&&e.code==="rate_limited"?"Terlalu banyak permintaan. Cuba lagi selepas seminit.":"Pandangan tidak dapat dijana sekarang. Cuba lagi sebentar.";}).then(function(){btn.disabled=false;});}
+
+/* ---------- demo ---------- */
+function demoData(){var d=blank(),t=todayISO();d.demo=true;d.profil={nama:"Aiman Hakimi",negeri:"Kedah",daerah:"Kota Setar",tel:""};
+ var P={id:"dPadi",nama:"Sawah Lot 12",tanaman:"padi",luas:1.2,tarikh:addDays(t,-48),lokasi:"Kg. Alor Janggus"},G={id:"dGetah",nama:"Kebun getah Bukit",tanaman:"getah",luas:2,tarikh:"2014-03-01",lokasi:"Pendang"},W={id:"dSawit",nama:"Ladang sawit Pinggir",tanaman:"sawit",luas:3,tarikh:"2012-06-01",lokasi:"Sik"};
+ d.kebun=[P,G,W];var r=function(kid,j,kat,ago,amt,q,u,n){d.duit.push({id:uidGen(),at:Date.now()-ago*1000,kebunId:kid,jenis:j,kategori:kat,tarikh:addDays(t,-ago),amaun:amt,kuantiti:q||null,unit:u||"",nota:n||""});};
+ r("dPadi","kos","Membajak dan jentera",150,480,1.2,"ha");r("dPadi","kos","Baja",135,220,4,"beg","Baja tambahan selepas kuota subsidi");r("dPadi","kos","Racun",120,145,2,"botol");r("dPadi","kos","Upah tuai",62,600,1.2,"ha");r("dPadi","hasil","Jualan padi",60,6750,4500,"kg","Kilang padi, resit #8812");r("dPadi","kos","Benih",50,320,4,"beg");r("dPadi","kos","Membajak dan jentera",52,480,1.2,"ha");r("dPadi","kos","Baja",33,180,3,"beg");r("dPadi","kos","Racun",40,95,1,"botol");r("dPadi","kos","Air dan minyak",15,60);
+ for(var m=0;m<6;m++){var ago=m*30+5;r("dGetah","hasil","Jualan sekerap",ago,[820,760,640,690,880,910][m],[300,280,240,255,320,330][m],"kg");r("dGetah","kos","Upah toreh",ago-1,[330,305,256,276,352,364][m]);r("dGetah","kos","Asid dan bahan beku",ago+8,35,1,"botol");
+  r("dSawit","hasil","Jualan BTS",ago+2,[2350,2120,1960,2480,2600,2280][m],[2900,2650,2450,3050,3200,2850][m],"kg");r("dSawit","kos","Upah tuai",ago+2,[435,398,368,458,480,428][m]);r("dSawit","kos","Upah angkut",ago+2,[145,133,123,153,160,143][m]);}
+ r("dGetah","kos","Baja",95,540,12,"beg");r("dSawit","kos","Baja",110,2100,30,"beg","Pusingan pertama tahun ini");r("dSawit","kos","Racun rumpai",70,260,4,"botol");r("dSawit","kos","Racun perosak",40,180);
+ d.sihat=[{id:uidGen(),at:1,kebunId:"dPadi",tarikh:addDays(t,-20),simptom:[],skor:100,nota:""},{id:uidGen(),at:2,kebunId:"dPadi",tarikh:addDays(t,-6),simptom:["kuning","siput"],skor:65,nota:"Hujung petak dekat parit"},
+  {id:uidGen(),at:3,kebunId:"dGetah",tarikh:addDays(t,-12),simptom:["rumpai"],skor:90,nota:""},{id:uidGen(),at:4,kebunId:"dSawit",tarikh:addDays(t,-40),simptom:["kalium"],skor:90,nota:""},{id:uidGen(),at:5,kebunId:"dSawit",tarikh:addDays(t,-9),simptom:["kalium","ulat"],skor:70,nota:"Blok B, 6 pokok"}];
+ d.stok=[{id:uidGen(),nama:"Baja urea",baki:1,unit:"beg",min:2,kebunId:"dPadi"},{id:uidGen(),nama:"Racun rumpai",baki:3,unit:"botol",min:1,kebunId:null},{id:uidGen(),nama:"Baja MOP (kalium)",baki:4,unit:"beg",min:5,kebunId:"dSawit"},{id:uidGen(),nama:"Asid formik",baki:2,unit:"botol",min:1,kebunId:"dGetah"}];
+ return d;}
+
+/* ---------- cloud ---------- */
+function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej({code:"timeout"});},ms);})]);}
+function initCloud(){if(!window.claude||!window.claude.use)return;
+ window.claude.use("downloads").then(function(d){dl=d;}).catch(function(){});
+ window.claude.use("sample").then(function(s){sample=s;if(ui.v==="sihat")render();}).catch(function(){});
+ window.claude.use("user").then(function(u){user=u;if(!u)return null;return Promise.all([u.isOwner().catch(function(){return false;}),u.id().catch(function(){return null;})]);}).then(function(r){if(!r)return;isOwner=!!r[0];uid=r[1];if(ui.v==="lagi")render();
+  return window.claude.use("db");}).then(function(d){db=d||null;if(!db||!uid)return;
+  return withTimeout(db.collection("data/users/"+uid).doc("tanikira").get(),10000).then(function(snap){var remote=null;if(snap.exists){try{remote=JSON.parse((snap.data()||{}).json);}catch(e){}}
+   if(remote&&(remote.updatedAt||0)>(S.updatedAt||0)){S=remote;mem=S;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}render();setSync(true);}
+   else if(S.updatedAt){pushCloud();}else setSync(true);});}).catch(function(){setSync(false);});}
+
+document.getElementById("aboutSide").innerHTML=aboutHTML();
+render();initCloud();
+(function(){var q=new URLSearchParams(location.search).get("buka");if(!q)return;history.replaceState(null,"",location.pathname);
+ if(q==="kos"||q==="hasil")formTx(q);else if(q==="semak")formCheck();else if(q==="kewangan")go("duit");})();
+if("serviceWorker" in navigator&&location.protocol==="https:"){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+window.addEventListener("online",function(){toast("Kembali dalam talian");});
+window.addEventListener("offline",function(){toast("Tiada internet. Rekod tetap disimpan dalam telefon.");});
+})();
+</script>
+</body>
+</html>
